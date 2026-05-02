@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Verhindert, dass Padding die Größe aufbläht */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("../img/background.png");
+    background-repeat: no-repeat; /* Bild wird nicht wiederholt */
+    background-size: cover;      /* Bild füllt den ganzen Bildschirm aus */
+    background-position: center; /* Bild wird zentriert */
+
+    min-height: 100%;
+}
