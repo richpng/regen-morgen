@@ -1,7 +1,8 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Verhindert, dass Padding die Größe aufbläht */
+    box-sizing: border-box; 
+    font-family: sans-serif;
 }
 
 html, body {
@@ -11,10 +12,40 @@ html, body {
 }
 
 body {
-    background-image: url("../img/background.png");
-    background-repeat: no-repeat; /* Bild wird nicht wiederholt */
-    background-size: cover;      /* Bild füllt den ganzen Bildschirm aus */
-    background-position: center; /* Bild wird zentriert */
-
+    background: #CAAFBE url("../img/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     min-height: 100%;
+    align-content: center;
+}
+
+.rainOnMe{
+    box-sizing: border-box;
+    background-color:rgba(211, 211, 211, 0.7);
+    border: 3px black solid;
+    border-radius: 15px;
+    text-align: center;
+    width: fit-content;
+    padding: 40px;
+    margin: 0 auto;
+    box-shadow: 2px;
+}
+
+h1{
+    padding: 20px;
+    font-size: 80px;
+    font-weight: bold;
+}
+
+#locationText{
+    font-size: 20px;
+    margin: 10px;
+    padding: 5px;
+}
+
+#locationSubmit{
+    font-size: 20px;
+    margin: 10px;
+    padding: 5px 10px;
 }
