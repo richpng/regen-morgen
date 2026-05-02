@@ -1,4 +1,9 @@
 # regen-morgen
 Zeigt an ob es morgen regnet
 
-regen-morgen.de
+https://regen-morgen.de
+
+## Build Guide
+```console
+docker compose up --build
+```
