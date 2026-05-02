@@ -25,7 +25,7 @@ ARG UID=10001
 RUN adduser \
     --disabled-password \
     --gecos "" \
-    --home "/nonexistent" \
+    --home "/tmp" \
     --shell "/sbin/nologin" \
     --no-create-home \
     --uid "${UID}" \
@@ -49,4 +49,4 @@ COPY . .
 EXPOSE 8081
 
 # Run the application.
-CMD ["python3", "-m", "gunicorn", "app:app", "--host=0.0.0.0", "--port=8081"]
+CMD ["python3", "-m", "gunicorn", "app:app", "--bind=0.0.0.0:8081", "--worker-tmp-dir", "/tmp"]
