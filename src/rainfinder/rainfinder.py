@@ -94,6 +94,8 @@ class RainFinder:
         self.log.debug(json.dumps(place, indent=2))
         coordinates = self.__get_coordinates_for_place(place)
         forecast = self.__get_rain_forecast(coordinates)
+        if forecast is None:
+            return None
         self.log.debug(json.dumps(forecast, indent=2))
         rain_data = forecast["hourly"]["rain"]
         max_rain = max(rain_data)
