@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/regen.css') }}">
     {% if location %}
         <title>Regen Morgen {{ location }}?</title>
     {% else %}
@@ -40,7 +40,13 @@
             {% endif %}
             </div>
         </div>
-    </div>
+    </div><br>
+    <footer>
+        <p>&copy; 2026 Regen Morgen? | 
+        <a href="{{ url_for('it_is_raining_datenschutzerklaerungen') }}">Datenschutzerklärung</a> | 
+        <a href="/impressum">Impressum</a>
+        </p>
+    </footer>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const input = document.getElementById('locationText');
