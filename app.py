@@ -17,7 +17,7 @@ def query_for_rain():
     location = request.args.get("location")
     #latitude = request.args.get("lat")
     #longitude = request.args.get("lon")
-    rainresult_dict = rainy.retrieve_rain_result(location)
+    rainresult_dict = rainy.retrieveRainResult(location, app.logger)
     """
     found_place = None
     if location in app.plz_coordinats_map:
@@ -31,4 +31,17 @@ def query_for_rain():
     """
     is_raining=rainresult_dict["is_raining"]
 
-    return render_template("regen.html", location=location, is_raining=is_raining)
+    # error handling if rainresult dict 
+    rain_error=False
+    if is_raining is None:
+        rain_error=True
+
+    return render_template("regen.html", location=location, is_raining=is_raining, rain_error=rain_error)
+
+@app.route("/datenschutz")
+def it_is_raining_datenschutzerklaerungen():
+    return render_template("datenschutz.html")
+
+@app.route("/impressum")
+def serve_impressum():
+    return render_template("impressum.html")

@@ -207,3 +207,81 @@ h1{
     background: rgba(74, 144, 226, 0.1); /* Subtle blue hover effect */
     color: #4a00e0;
 }
+
+
+.legal-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    
+    width: 95%;
+    max-width: 800px; 
+    margin: 40px auto;
+    padding: 40px;
+    
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    color: #333;
+    
+    /* Falls die Seite sehr lang wird, erlaubt dies Scrollen */
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+/* Scrollbar-Styling für den Glass-Look */
+.legal-container::-webkit-scrollbar {
+    width: 8px;
+}
+.legal-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.legal-container h1 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.legal-container h2, .legal-container h3 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.legal-container p, .legal-container li {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+/* Back-Button Styling */
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #4a00e0;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+}
+
+.back-link:hover {
+    transform: translateX(-5px);
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: white; /* Oder eine Farbe deiner Wahl */
+    z-index: 1000;
+}
+
+footer a {
+    color: white;
+    margin: 0 10px;
+}
