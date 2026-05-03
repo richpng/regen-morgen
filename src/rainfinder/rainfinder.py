@@ -22,7 +22,7 @@ class RainFinder:
         else:
             self.log = logging.getLogger(__name__)
             self.log.info("Initiated own logger in class")
-            logging.basicConfig(filename="rainfinder.log", encoding="utf-8", level=logging.DEBUG)
+            logging.basicConfig(encoding="utf-8", level=logging.INFO)
 
         if __name__ == "__main__":
             self.__run_manual()

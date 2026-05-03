@@ -52,3 +52,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Git
+.git
+.gitignore
