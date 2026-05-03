@@ -159,7 +159,7 @@ class RainFinder:
             is_raining = True
 
         #TODO Include exact place
-        rain_result = {"isRaining": is_raining, "rain_data": rain_data, "extrapolate": self.__extrapolate_rain_data(rain_data)}
+        rain_result = {"is_raining": is_raining, "rain_data": rain_data, "extrapolate": self.__extrapolate_rain_data(rain_data)}
 
         return rain_result
 

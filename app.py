@@ -1,14 +1,11 @@
 from flask import Flask, request
 from flask import render_template
 import random
-from src.rainfinder.core import get_place_coordinates, get_rain_forecast, search_place
-from src.rainfinder import setup
+from src.rainfinder import rainfinder
 
 app = Flask(__name__)
 
-setup.get_PLZ_coordinates_file()
-app.plz_coordinats_map = get_place_coordinates()
-
+rainy = rainfinder.RainFinder()
 
 
 @app.route("/")
@@ -20,6 +17,8 @@ def query_for_rain():
     location = request.args.get("location")
     #latitude = request.args.get("lat")
     #longitude = request.args.get("lon")
+    rainresult_dict = rainy.retrieveRainResult(location)
+    """
     found_place = None
     if location in app.plz_coordinats_map:
         found_place = app.plz_coordinats_map[location]
@@ -29,6 +28,7 @@ def query_for_rain():
         raise Exception("found_place is None")
     day_forecast = get_rain_forecast(found_place)
     hourly_forecast = day_forecast["hourly"]["rain"]
-    is_raining=True
+    """
+    is_raining=rainresult_dict["is_raining"]
 
     return render_template("regen.html", location=location, is_raining=is_raining)
