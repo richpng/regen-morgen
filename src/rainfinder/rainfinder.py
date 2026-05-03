@@ -3,9 +3,10 @@ import json
 import csv
 from pathlib import Path
 from urllib3 import disable_warnings
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import logging
 import os
+import xmltodict
 
 class RainFinder:
 
@@ -31,26 +32,35 @@ class RainFinder:
 
     #Gets the metro data from external api based on coordinates
     def __get_rain_forecast(self, coordinates):
-        url = "https://api.open-meteo.com/v1/forecast"
-        latitude, longitude = coordinates
-        tomorrow = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
-        params = {
-            "latitude": latitude,
-            "longitude": longitude,
-            "daily": "rain_sum",
-            "hourly": "rain",
-            "models": "icon_seamless",
-            "timezone": "Europe/Berlin",
-            "start_date": tomorrow,
-            "end_date" : tomorrow
-        }
+        longitude, latitude = coordinates
+        url = f"https://api.met.no/weatherapi/locationforecast/2.0/classic?lat={latitude:.2f}&lon={longitude:.2f}"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:150.0) Gecko/20100101 Firefox/150.0",
+            }
         try:
-            result = requests.get(url, params=params, verify=False)
+            result = requests.get(url, verify=False, headers=headers)
             result.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            self.log.error(f"No weather data for coordinates: {coordinates}")
+            self.log.error(f"No data for coordinates: {coordinates}, {e}")
             return None
-        return result.json()
+        content = xmltodict.parse(result.text)
+        return content
+
+    @staticmethod
+    def __parse_forecast_for_tomorrow(forecast:dict) -> list:
+        hourly = []
+        current_timestamp = datetime.combine(date.today() + timedelta(days=1), datetime.min.time())
+        end_timestamp = current_timestamp+timedelta(days=1)
+        next_timestamp = current_timestamp + timedelta(hours=1)
+        for entry in forecast["weatherdata"]["product"]["time"]:
+            if "precipitation" not in entry["location"]:
+                continue
+            if entry["@from"] == current_timestamp.strftime("%Y-%m-%dT%H:%M:%SZ") and entry["@to"] == next_timestamp.strftime("%Y-%m-%dT%H:%M:%SZ"):
+                hourly.append(float(entry["location"]["precipitation"]["@value"]))
+                current_timestamp = next_timestamp
+                next_timestamp += timedelta(hours=1)
+        return hourly
+
 
     #Get coordinates for places not in csv
     def __search_place(self, query:str)-> dict:
@@ -101,7 +111,7 @@ class RainFinder:
         if forecast is None:
             return None
         self.log.debug(json.dumps(forecast, indent=2))
-        rain_data = forecast["hourly"]["rain"]
+        rain_data = self.__parse_forecast_for_tomorrow(forecast)
         max_rain = max(rain_data)
         is_raining = False
         if max_rain > 0:
