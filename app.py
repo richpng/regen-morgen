@@ -29,14 +29,15 @@ def query_for_rain():
     day_forecast = get_rain_forecast(found_place)
     hourly_forecast = day_forecast["hourly"]["rain"]
     """
-    is_raining=rainresult_dict["is_raining"]
+    is_rain_error=False
+    is_raining=None
+    if rainresult_dict is None:
+        is_rain_error=True
+    else:
+        is_raining=rainresult_dict["is_raining"]
+    
 
-    # error handling if rainresult dict 
-    rain_error=False
-    if is_raining is None:
-        rain_error=True
-
-    return render_template("regen.html", location=location, is_raining=is_raining, rain_error=rain_error)
+    return render_template("regen.html", location=location, is_raining=is_raining, is_rain_error=is_rain_error)
 
 @app.route("/datenschutz")
 def it_is_raining_datenschutzerklaerungen():
