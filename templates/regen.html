@@ -30,14 +30,18 @@
 
         <div class="rain-info {% if location %}active{% endif %}"
             {% if location %}
-                <p>Morgen in <strong>{{ location }}</strong>:</p>
-                <div class="weather-emoji">
-                {% if is_raining %}
-                    🌧️
+                {% if is_rain_error %}
+                    <p>Wetter für <strong>{{ location }}</strong> konnte nicht bestimmt werden.</p>
                 {% else %}
-                    ☀️
+                    <p>Morgen in <strong>{{ location }}</strong>:</p>
+                    <div class="weather-emoji">
+                        {% if is_raining %}
+                            🌧️
+                        {% else %}
+                            ☀️
+                        {% endif %}
+                    </div>
                 {% endif %}
-                </div>
             {% endif %}
             </div>
         </div>
