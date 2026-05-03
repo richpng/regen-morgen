@@ -65,7 +65,7 @@ def search_place(query:str)-> dict:
     result.raise_for_status()
     return result
 
-def extrapolate_rain_data(rain_per_hour:list) -> string:
+def extrapolate_rain_data(rain_per_hour:list) -> str:
     max_rain = max(rain_per_hour)
     if max_rain == 0:
         return "Nein"
@@ -78,7 +78,7 @@ def extrapolate_rain_data(rain_per_hour:list) -> string:
     return "Schau, dass du zuhause bleibst!"
 
 if __name__ == "__main__":
-    from setup import get_PLZ_coordinates_file
+    from src.rainfinder.setup import get_PLZ_coordinates_file
     get_PLZ_coordinates_file()
     place_coords = get_place_coordinates()
     place = input("Wo? : ").lower()

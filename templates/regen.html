@@ -1,0 +1,38 @@
+<!doctype html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% if location %}
+        <title>Regen Morgen {{ location }}?</title>
+    {% else %}
+        <title>Regen Morgen?</title>
+    {% endif %}
+</head>
+<body>
+    {% if location and location|lower == 'flashbang' %}
+        <div class="flashbang-overlay"></div>
+    {% endif %}
+
+    <div class="rainOnMe">
+        <h1>Regen Morgen?</h1>
+        <form action="/regen">
+            <input type="text" name="location" required id="locationText" placeholder="Stadt eingeben..."/><br>
+            <input type="submit" value="Morgen regen?" id="locationSubmit"/>
+        </form>
+
+        <div class="rain-info {% if location %}active{% endif %}"
+            {% if location %}
+                <p>Morgen in <strong>{{ location }}</strong>:</p>
+                <div class="weather-emoji">
+                {% if is_raining %}
+                    🌧️
+                {% else %}
+                    ☀️
+                {% endif %}
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
