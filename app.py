@@ -17,7 +17,7 @@ def query_for_rain():
     location = request.args.get("location")
     #latitude = request.args.get("lat")
     #longitude = request.args.get("lon")
-    rainresult_dict = rainy.retrieveRainResult(location)
+    rainresult_dict = rainy.retrieve_rain_result(location)
     """
     found_place = None
     if location in app.plz_coordinats_map:
