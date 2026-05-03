@@ -1,0 +1,104 @@
+<!doctype html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% if location %}
+        <title>Regen Morgen {{ location }}?</title>
+    {% else %}
+        <title>Regen Morgen?</title>
+    {% endif %}
+</head>
+<body>
+    {% if location and location|lower == 'flashbang' %}
+        <div class="flashbang-overlay"></div>
+    {% endif %}
+
+    <div class="rainOnMe">
+        <h1>Regen Morgen?</h1>
+        <form action="/regen">
+            <div class="input-wrapper">
+                <input type="text" name="location" required id="locationText" placeholder="Stadt eingeben..." autocomplete="off"/>
+                <ul id="resultsList" class="autocomplete-dropdown" style="display: none;"></ul>
+            </div>
+            <input type="hidden" name="lat" id="latInput">
+            <input type="hidden" name="lon" id="lonInput">
+
+            <input type="submit" value="Morgen regen?" id="locationSubmit"/>
+        </form>
+
+        <div class="rain-info {% if location %}active{% endif %}"
+            {% if location %}
+                <p>Morgen in <strong>{{ location }}</strong>:</p>
+                <div class="weather-emoji">
+                {% if is_raining %}
+                    🌧️
+                {% else %}
+                    ☀️
+                {% endif %}
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('locationText');
+        const resultsList = document.getElementById('resultsList');
+        let timeout;
+
+        const latInput = document.getElementById('latInput');
+        const lonInput = document.getElementById('lonInput');
+
+        window.selectLocation = (lat, lon, displayName) => {
+
+        input.value = displayName;
+        latInput.value = lat;      
+        lonInput.value = lon;      
+        
+        resultsList.style.display = 'none';            
+    };
+
+        input.addEventListener('input', () => {
+            clearTimeout(timeout);
+            const query = input.value;
+            
+            if (query.length < 3) {
+                resultsList.style.display = 'none';
+                return;
+            }
+
+            timeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`);
+                    const data = await response.json();
+                    
+                    resultsList.innerHTML = '';
+                    if (data.length > 0) {
+                        resultsList.style.display = 'block';
+                        data.forEach(item => {
+                            const li = document.createElement('li');
+                            // Nominatim returns a long string (e.g. "Munich, Bavaria, Germany"). 
+                            // item.display_name works perfectly here.
+                            li.textContent = item.display_name; 
+                            li.onclick = () => selectLocation(item.lat, item.lon, item.display_name);
+                            resultsList.appendChild(li);
+                        });
+                    } else {
+                        resultsList.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error("Fehler beim Abrufen der Orte:", error);
+                }
+            }, 300);
+        });
+
+        // Hide the dropdown if the user clicks outside of it
+        document.addEventListener('click', (event) => {
+            if (!input.contains(event.target) && !resultsList.contains(event.target)) {
+                resultsList.style.display = 'none';
+            }
+        });
+    });
+</script>
+</body>
