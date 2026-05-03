@@ -49,4 +49,4 @@ COPY --chown=appuser . .
 EXPOSE 8081
 
 # Run the application.
-CMD ["python3", "-m", "gunicorn", "app:app", "--bind=0.0.0.0:8081", "--worker-tmp-dir", "/tmp"]
+CMD ["python3", "-m", "gunicorn", "app:app", "--bind=localhost:8081", "--worker-tmp-dir", "/tmp"]
