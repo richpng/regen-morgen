@@ -55,7 +55,7 @@ class RainFinder:
         for entry in forecast["weatherdata"]["product"]["time"]:
             if "precipitation" not in entry["location"]:
                 continue
-            if current_timestamp > end_timestamp:
+            if current_timestamp >= end_timestamp:
                 break
             if entry["@from"] == current_timestamp.strftime("%Y-%m-%dT%H:%M:%SZ") and entry["@to"] == next_timestamp.strftime("%Y-%m-%dT%H:%M:%SZ"):
                 hourly.append(float(entry["location"]["precipitation"]["@value"]))
