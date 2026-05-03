@@ -85,14 +85,18 @@ class RainFinder:
 
     #Resolves coordinates for place by loaded csv or api as fallback
     def __get_coordinates_for_place(self, place:str):
-        found_coordinates = self.__search_place(place).json()["features"][0]["geometry"]["coordinates"]
-        return found_coordinates
+        found_coordinates = self.__search_place(place).json()["features"]
+        if len(found_coordinates) == 0:
+            return None
+        return found_coordinates[0]["geometry"]["coordinates"]
 
 
     #Return result based on place
     def retrieve_rain_result(self, place:str)->dict:
         self.log.debug(json.dumps(place, indent=2))
         coordinates = self.__get_coordinates_for_place(place)
+        if coordinates is None:
+            return None
         forecast = self.__get_rain_forecast(coordinates)
         if forecast is None:
             return None
