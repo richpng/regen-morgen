@@ -160,3 +160,50 @@ h1{
         padding: 40px 20px; 
     }
 }
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px; /* Moved margin from #locationText to the wrapper */
+}
+
+#locationText {
+    margin-bottom: 0; /* Reset this so the dropdown sits flush */
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: calc(100% + 5px); /* Position slightly below the input */
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    
+    list-style: none;
+    text-align: left;
+    z-index: 100;
+}
+
+.autocomplete-dropdown li {
+    padding: 12px 20px;
+    cursor: pointer;
+    color: #333;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background 0.2s ease;
+}
+
+.autocomplete-dropdown li:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-dropdown li:hover {
+    background: rgba(74, 144, 226, 0.1); /* Subtle blue hover effect */
+    color: #4a00e0;
+}
